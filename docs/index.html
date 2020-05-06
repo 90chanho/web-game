@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+	</head>
+	<body>
+		<main>
+			<p class="greet">hello index.html</p>
+			<iframe src="./list/" frameborder="0" class="list-wrapper"></iframe>
+			<iframe src="./js-stone/" frameborder="0" class="game-wrapper"></iframe>
+		</main>
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				// var iframeWindow = frames["iframe-name"]
+				var iframeGameWrapper = document.querySelector(".game-wrapper")
+				var iframeWindow = document.querySelector(".list-wrapper").contentWindow
+
+				iframeWindow.addEventListener("DOMContentLoaded", function() {
+					console.log("iframe DOM is loaded!")
+					const gameList = iframeWindow.document.querySelectorAll(".list")
+					gameList.forEach(item => {
+						item.addEventListener("click", () => {
+							console.log(item.dataset.url)
+							iframeGameWrapper.setAttribute("src", item.dataset.url)
+						})
+					})
+				})
+			})
+		</script>
+	<script src="app.js"></script></body>
+</html>

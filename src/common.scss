@@ -1,0 +1,18 @@
+body {
+	font-family: "Do Hyeon"
+}
+.flex {
+	display: flex;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.flex-col {
+	flex-direction: column;
+}
+
+.v-center {
+	align-items: center;
+}

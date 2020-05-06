@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="icon" href="/public/favicon.ico" />
+		<title>Document</title>
+		<script src="https://kit.fontawesome.com/b34f7f8ad2.js" crossorigin="anonymous"></script>
+		<script rel="preload" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+		<script>
+			WebFont.load({
+				google: {
+					families: ["Do Hyeon"]
+				}
+			})
+		</script>
+	</head>
+	<body id="body" class="flex flex-col">
+		<header class="v-center">
+			<h1 class="a11y-hidden">Web game with typescript</h1>
+			<i class="fas fa-power-off"></i>
+			<time class="real-time" datetime="">
+				<span calss="hours"></span>
+				<i class="colon">:</i>
+				<span class="mins"></span>
+			</time>
+		</header>
+		<main class="wrapper flex flex-col">
+			<div class="wave">&nbsp;</div>
+			<div class="selected-game-container">
+				<iframe src="/times-table" frameborder="0" id="selectedGame"></iframe>
+			</div>
+			<div class="games">
+				<a href="#" class="item" data-game="times-table">
+					<h2 class="game-title">구구단</h2>
+					<img src="/" alt="구구단" />
+				</a>
+				<a href="#" class="item" data-game="number-baseball">
+					<h2 class="game-title">숫자야구</h2>
+					<img src="/" alt="숫자 야구" />
+				</a>
+				<a href="#" class="item" data-game="pair-card">
+					<h2 class="game-title">짝맞추기</h2>
+					<img src="/" alt="짝 맞추기" />
+				</a>
+				<a href="#" class="item" data-game="tic-tac-toe">
+					<h2 class="game-title">틱택토</h2>
+					<img src="/" alt="틱택토" />
+				</a>
+				<a href="#" class="item" data-game="rps">
+					<h2 class="game-title">가위바위보</h2>
+					<img src="/" alt="가위바위보" />
+				</a>
+			</div>
+		</main>
+		<footer class="flex">
+			<div class="keyMap"><kbd>Enter</kbd>실행</div>
+			<div class="profile">
+				<i class="fas fa-user"></i>
+				<span>User Name</span>
+			</div>
+		</footer>
+	</body>
+</html>
