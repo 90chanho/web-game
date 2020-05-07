@@ -17,11 +17,11 @@ module.exports = {
 		"times-table/times-table": "./src/times-table/times-table.ts"
 	},
 	output: {
-		path: path.resolve(__dirname, "docs"),
+		path: path.resolve(__dirname, "build"),
 		filename: "[name].js"
 	},
 	devServer: {
-		contentBase: path.join(__dirname, "docs"),
+		contentBase: path.join(__dirname, "build"),
 		publicPath: "/",
 		overlay: true,
 		stats: "errors-only"

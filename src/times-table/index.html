@@ -5,10 +5,116 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Document</title>
+		<script rel="preload" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+		<script>
+			WebFont.load({
+				google: {
+					families: ["Do Hyeon"]
+				}
+			})
+		</script>
 	</head>
 	<body>
 		<main>
-			나는 time-table 컨텐츠야
+			<section class="container">
+				<div class="inner-container content times-table">
+					<div class="step step1 difficulty is-active">
+						<label for="difficultyOptionBeginner"
+							><input
+								id="difficultyOptionBeginner"
+								type="radio"
+								name="difficulty"
+								value="beginner"
+								checked
+							/>초급</label
+						>
+						<label for="difficultyOptionIntermediate"
+							><input
+								id="difficultyOptionIntermediate"
+								type="radio"
+								name="difficulty"
+								value="intermediate"
+								disabled
+							/>중급</label
+						>
+						<label for="difficultyOptionAdvanced"
+							><input
+								id="difficultyOptionAdvanced"
+								type="radio"
+								name="difficulty"
+								value="advanced"
+								disabled
+							/>고급</label
+						>
+					</div>
+					<div class="step step2 game-type" hidden>
+						<label for="typeOptionAnswer"
+							><input
+								id="typeOptionAnswer"
+								type="radio"
+								name="type"
+								value="answer"
+								checked
+							/>주관식</label
+						>
+						<label for="typeOptionMultiple"
+							><input
+								id="typeOptionMultiple"
+								type="radio"
+								name="type"
+								value="multiple"
+							/>객관식</label
+						>
+					</div>
+					<div class="step step3 play-game" hidden>
+						<p class="selectedDifficulty">Difficulty : <span></span></p>
+						<p class="selectedType">Type: <span></span></p>
+						<div class="question-container">
+							<p class="question">문제</p>
+							<form action="">
+								<div class="answer" hidden>
+									<input type="number" name="" id="" />
+									<button type="submit">입력</button>
+								</div>
+								<div class="multiple" hidden>
+									<ol>
+										<li>
+											<label for="multipleOption1"></label>
+											<input id="multipleOption1" type="radio" name="multiple" value="" />
+										</li>
+										<li>
+											<label for="multipleOption2"> </label>
+											<input id="multipleOption2" type="radio" name="multiple" value="" />
+										</li>
+										<li>
+											<label for="multipleOption3"> </label>
+											<input id="multipleOption3" type="radio" name="multiple" value="" />
+										</li>
+										<li>
+											<label for="multipleOption4"> </label>
+											<input id="multipleOption4" type="radio" name="multiple" value="" />
+										</li>
+										<li>
+											<label for="multipleOption5"> </label>
+											<input id="multipleOption5" type="radio" name="multiple" value="" />
+										</li>
+									</ol>
+									<button type="submit" class="a11y-hidden">입력</button>
+								</div>
+							</form>
+							<p class="result"></p>
+						</div>
+					</div>
+				</div>
+				<div class="step-controller">
+					<button class="button-prev-step">
+						이전
+					</button>
+					<button class="button-next-step">
+						다음
+					</button>
+				</div>
+			</section>
 		</main>
 	</body>
 </html>

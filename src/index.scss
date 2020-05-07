@@ -89,25 +89,14 @@ main {
 	display: flex;
 	justify-content: center;
 	flex: 1;
-	margin: 0 -20px;
-
-	&.is-playing-game {
-		.selected-game-container {
-			transform: scale(1);
-			transition: 1s;
-			display: block;
-		}
-		.games {
-			transition: 1s;
-			transform: scale(0);
-			display: none;
-		}
-	}
 
 	.selected-game-container {
 		transform: scale(0);
-		display: none;
+		width: 0;
+		height: 0;
+		opacity: 0;
 		background-color: #fff;
+		transition: transform 1.5s;
 	}
 
 	.games {
@@ -183,6 +172,21 @@ footer {
 	border-top: 3px solid #fff;
 
 	.keyMap {
+		&.disabled {
+			pointer-events: none;
+			opacity: 0.5;
+		}
+
+		&:not(.disabled):not(.esc) {
+			animation-name: beat;
+			animation-duration: 1s;
+			animation-iteration-count: infinite;
+		}
+
+		&.esc {
+			display: none;
+		}
+
 		kbd {
 			border: 2px solid #fff;
 			background: #e0e0e0;
@@ -203,6 +207,29 @@ footer {
 	}
 }
 
+// playing
+body.is-playing-game {
+	.selected-game-container {
+		transform: scale(1);
+		width: 100%;
+		height: 100%;
+		opacity: 1;
+	}
+	.games {
+		transition: 1s;
+		transform: scale(0);
+		display: none;
+	}
+	.keyMap {
+		&.enter {
+			display: none;
+		}
+		&.esc {
+			display: inline-block;
+		}
+	}
+}
+
 // animation
 
 @keyframes spin {
@@ -211,20 +238,11 @@ footer {
 	}
 }
 
-@keyframes contianer-show {
+@keyframes beat {
 	0% {
-	}
-	99% {
-	}
-	100% {
-	}
-}
-
-@keyframes contianer-hide {
-	0% {
+		transform: scale(1);
 	}
 	50% {
-	}
-	100% {
+		transform: scale(0.8);
 	}
 }
