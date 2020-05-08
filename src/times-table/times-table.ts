@@ -27,14 +27,18 @@ const formElement: HTMLFormElement = playGround.querySelector("form") as HTMLFor
 const resultElement: HTMLParagraphElement = playGround.querySelector(
 	".result"
 ) as HTMLParagraphElement
-const answerTypeForm = formElement.querySelector(".answer") as HTMLDivElement
-const multipleTypeForm = formElement.querySelector(".multiple") as HTMLDivElement
+const answerTypeForm: HTMLDivElement = formElement.querySelector(".answer") as HTMLDivElement
+const multipleTypeForm: HTMLDivElement = formElement.querySelector(".multiple") as HTMLDivElement
+const submitButtonElment: HTMLButtonElement = formElement.querySelector(
+	".multiple"
+) as HTMLButtonElement
 
 let currentStep: number = 1
 let currentOptions: { difficulty: string; type: string } = {
 	difficulty: "beginner",
 	type: "answer"
 }
+let numberOne: number, numberTwo: number, options: number[], result: number
 
 prevStepButton.addEventListener("click", () => {
 	switch (currentStep) {
@@ -50,6 +54,7 @@ prevStepButton.addEventListener("click", () => {
 			step2Element.hidden = false
 			step3Element.hidden = true
 			nextStepButton.disabled = false
+			formElement.removeEventListener("submit", submitAction)
 			break
 	}
 })
@@ -70,14 +75,33 @@ nextStepButton.addEventListener("click", () => {
 			nextStepButton.disabled = true
 			currentOptions = checkStepOptions()
 			startGame()
+			formElement.addEventListener("submit", submitAction)
 			break
 	}
 })
 
-const startGame = () => {
-	let input: HTMLInputElement
-	let { numberOne, numberTwo, options, result } = setQuestion()
+const setQuestion: () => void = () => {
+	numberOne = Math.ceil(Math.random() * 9)
+	numberTwo = Math.ceil(Math.random() * 9)
+	result = numberOne * numberTwo
+	options = createOptions(result)
+	currentOptions.type === "multiple" ? (options = createOptions(result)) : (options = [])
+	questionElement.textContent = `${numberOne} 곱하기 ${numberTwo}는 ?`
+}
 
+const submitAction: (event: Event) => any = event => {
+	let input: HTMLInputElement
+	event.preventDefault()
+	if (currentOptions.type === "answer") {
+		input = answerTypeForm.querySelector("input") as HTMLInputElement
+	} else {
+		input = multipleTypeForm.querySelector("input[type=radio]:checked") as HTMLInputElement
+	}
+
+	checkAnswer(input)
+}
+
+const startGame = () => {
 	selectedDifficulty.textContent = currentOptions.difficulty
 	selectedType.textContent = currentOptions.type
 
@@ -89,84 +113,45 @@ const startGame = () => {
 		multipleTypeForm.hidden = false
 	}
 
-	questionElement.textContent = `${numberOne} 곱하기 ${numberTwo}는??`
-
-	formElement.addEventListener("submit", function(e) {
-		e.preventDefault()
-		if (currentOptions.type === "answer") {
-			input = answerTypeForm.querySelector("input") as HTMLInputElement
-		} else {
-			input = multipleTypeForm.querySelector("input[type=radio]:checked") as HTMLInputElement
-		}
-
-		console.log("input =", input)
-
-		if (result === Number(input.value)) {
-			resultElement.textContent = "딩동댕"
-			if (currentOptions.type === "answer") {
-				input.value = ""
-				input.focus()
-			} else {
-				input.checked = false
-			}
-			let {
-				numberOne: newNumberOne,
-				numberTwo: newNumberTwo,
-				options: newOptions,
-				result: newResult
-			} = setQuestion()
-			numberOne = newNumberOne
-			numberTwo = newNumberTwo
-			options = newOptions
-			result = newResult
-			questionElement.textContent = `${numberOne} 곱하기 ${numberTwo}는??`
-		} else {
-			resultElement.textContent = "땡"
-			if (currentOptions.type === "answer") {
-				input.value = ""
-				input.focus()
-			} else {
-				input.checked = false
-			}
-		}
-	})
+	setQuestion()
 }
 
-const checkStepOptions = () => {
+const checkAnswer: (input: HTMLInputElement) => void = input => {
+	if (result === Number(input.value)) {
+		resultElement.textContent = "딩동댕"
+		resetInput(input)
+		setQuestion()
+	} else {
+		resultElement.textContent = "땡"
+		resetInput(input)
+	}
+}
+
+const resetInput: (input: HTMLInputElement) => void = input => {
+	if (currentOptions.type === "answer") {
+		input.value = ""
+		input.focus()
+	} else {
+		input.checked = false
+	}
+}
+
+const checkStepOptions: () => { difficulty: string; type: string } = () => {
 	const difficulty = (document.querySelector("input[name=difficulty]:checked") as HTMLInputElement)
 		.value
 	const type = (document.querySelector("input[name=type]:checked") as HTMLInputElement).value
 	return { difficulty, type }
 }
 
-const setQuestion: () => {
-	numberOne: number
-	numberTwo: number
-	options: number[]
-	result: number
-} = () => {
-	let numberOne: number = Math.ceil(Math.random() * 9)
-	let numberTwo: number = Math.ceil(Math.random() * 9)
-	let result: number = numberOne * numberTwo
-	let options: number[] = createOptions(result)
-	currentOptions.type === "multiple" ? (options = createOptions(result)) : (options = [])
-
-	console.log("numberOne =", numberOne)
-	console.log("numberTwo =", numberTwo)
-	console.log("options =", options)
-	console.log("result =", result)
-
-	return { numberOne, numberTwo, options, result }
-}
-
 const createOptions: (result: number) => number[] = result => {
-	let optionsCandidate: number[] = [
-		Math.abs(result - Math.floor(Math.random() * 9)),
-		Math.abs(result - Math.floor(Math.random() * 9)),
-		Math.abs(result + Math.floor(Math.random() * 9)),
-		Math.abs(result + Math.floor(Math.random() * 9)),
-		result
-	]
+	let optionsCandidate: number[] = []
+	let order = [0, 1, 2, 3, 4]
+
+	order.reduce((accumulator, current) => {
+		optionsCandidate.push(accumulator + current)
+		return accumulator + current
+	}, result)
+
 	let options: number[] = []
 	for (let i: number = 0; optionsCandidate.length > 0; i++) {
 		options = options.concat(
@@ -175,22 +160,13 @@ const createOptions: (result: number) => number[] = result => {
 	}
 
 	let optionsElements: NodeListOf<HTMLLIElement> = multipleTypeForm.querySelectorAll("li")
-	let buttonSubmit: HTMLButtonElement = multipleTypeForm.querySelector(
-		"button"
-	) as HTMLButtonElement
 
 	optionsElements.forEach((optionElement, index) => {
 		const labelElement: HTMLLabelElement = optionElement.querySelector("label") as HTMLLabelElement
 		const inputElement: HTMLInputElement = optionElement.querySelector("input") as HTMLInputElement
 		labelElement.textContent = String(options[index])
 		inputElement.value = String(options[index])
-
-		optionElement.addEventListener("click", () => {
-			buttonSubmit.click()
-		})
 	})
 
 	return options
 }
-
-// shuffle

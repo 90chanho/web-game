@@ -591,20 +591,14 @@ main {
   width: 100%;
   display: flex;
   justify-content: center;
-  flex: 1;
-  margin: 0 -20px; }
-  main.is-playing-game .selected-game-container {
-    transform: scale(1);
-    transition: 1s;
-    display: block; }
-  main.is-playing-game .games {
-    transition: 1s;
-    transform: scale(0);
-    display: none; }
+  flex: 1; }
   main .selected-game-container {
     transform: scale(0);
-    display: none;
-    background-color: #fff; }
+    width: 0;
+    height: 0;
+    opacity: 0;
+    background-color: #fff;
+    transition: transform 1.5s; }
   main .games {
     display: block;
     position: relative;
@@ -653,6 +647,15 @@ main {
 
 footer {
   border-top: 3px solid #fff; }
+  footer .keyMap.disabled {
+    pointer-events: none;
+    opacity: 0.5; }
+  footer .keyMap:not(.disabled):not(.esc) {
+    animation-name: beat;
+    animation-duration: 1s;
+    animation-iteration-count: infinite; }
+  footer .keyMap.esc {
+    display: none; }
   footer .keyMap kbd {
     border: 2px solid #fff;
     background: #e0e0e0;
@@ -666,17 +669,30 @@ footer {
     border-radius: 4px;
     padding: 5px; }
 
+body.is-playing-game .selected-game-container {
+  transform: scale(1);
+  width: 100%;
+  height: 100%;
+  opacity: 1; }
+
+body.is-playing-game .games {
+  transition: 1s;
+  transform: scale(0);
+  display: none; }
+
+body.is-playing-game .keyMap.enter {
+  display: none; }
+
+body.is-playing-game .keyMap.esc {
+  display: inline-block; }
+
 @keyframes spin {
   100% {
     transform: rotate(360deg); } }
 
-@keyframes contianer-show {
-  0% { }
-  99% { }
-  100% { } }
-
-@keyframes contianer-hide {
-  0% { }
-  50% { }
-  100% { } }
+@keyframes beat {
+  0% {
+    transform: scale(1); }
+  50% {
+    transform: scale(0.8); } }
 

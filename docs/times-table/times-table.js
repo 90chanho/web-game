@@ -86,6 +86,39 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/common.scss":
+/*!*************************!*\
+  !*** ./src/common.scss ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/common.scss?");
+
+/***/ }),
+
+/***/ "./src/nomalize.scss":
+/*!***************************!*\
+  !*** ./src/nomalize.scss ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/nomalize.scss?");
+
+/***/ }),
+
+/***/ "./src/times-table/times-table.scss":
+/*!******************************************!*\
+  !*** ./src/times-table/times-table.scss ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./src/times-table/times-table.scss?");
+
+/***/ }),
+
 /***/ "./src/times-table/times-table.ts":
 /*!****************************************!*\
   !*** ./src/times-table/times-table.ts ***!
@@ -94,7 +127,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\n;\n\n(function () {\n  var numberOne = Math.ceil(Math.random() * 9);\n  var numberTwo = Math.ceil(Math.random() * 9);\n  var result = numberOne * numberTwo;\n\n  var _main = document.querySelector('.content.times-table');\n\n  var question = document.createElement('div');\n  question.textContent = numberOne + \" \\uACF1\\uD558\\uAE30 \" + numberTwo + \"\\uB294??\";\n\n  _main.append(question);\n\n  var form = document.createElement('form');\n\n  _main.append(form);\n\n  var input = document.createElement('input');\n  input.type = 'number';\n  form.append(input);\n  var button = document.createElement('button');\n  button.textContent = '입력';\n  form.append(button);\n  var resultDiv = document.createElement('div');\n\n  _main.append(resultDiv);\n\n  form.addEventListener('submit', function (e) {\n    e.preventDefault();\n\n    if (result === Number(input.value)) {\n      numberOne = Math.ceil(Math.random() * 9);\n      numberTwo = Math.ceil(Math.random() * 9);\n      result = numberOne * numberTwo;\n      question.textContent = numberOne + \" \\uACF1\\uD558\\uAE30 \" + numberTwo + \"\\uB294??\";\n      resultDiv.textContent = '딩동댕';\n      input.value = '';\n      input.focus();\n    } else {\n      resultDiv.textContent = '땡';\n      input.value = '';\n      input.focus();\n    }\n  });\n})();\n\n//# sourceURL=webpack:///./src/times-table/times-table.ts?");
+eval("\n\nexports.__esModule = true;\n\n__webpack_require__(/*! ../common.scss */ \"./src/common.scss\");\n\n__webpack_require__(/*! ../nomalize.scss */ \"./src/nomalize.scss\");\n\n__webpack_require__(/*! ./times-table.scss */ \"./src/times-table/times-table.scss\");\n\nvar step1Element = document.querySelector(\".step.step1\");\nvar step2Element = document.querySelector(\".step.step2\");\nvar step3Element = document.querySelector(\".step.step3\");\nvar prevStepButton = document.querySelector(\".button-prev-step\");\nvar nextStepButton = document.querySelector(\".button-next-step\");\nvar playGround = document.querySelector(\".play-game\");\nvar selectedDifficulty = playGround.querySelector(\".selectedDifficulty span\");\nvar selectedType = playGround.querySelector(\".selectedType span\");\nvar questionElement = playGround.querySelector(\".play-game .question\");\nvar formElement = playGround.querySelector(\"form\");\nvar resultElement = playGround.querySelector(\".result\");\nvar answerTypeForm = formElement.querySelector(\".answer\");\nvar multipleTypeForm = formElement.querySelector(\".multiple\");\nvar submitButtonElment = formElement.querySelector(\".multiple\");\nvar currentStep = 1;\nvar currentOptions = {\n  difficulty: \"beginner\",\n  type: \"answer\"\n};\nvar numberOne, numberTwo, options, result;\nprevStepButton.addEventListener(\"click\", function () {\n  switch (currentStep) {\n    case 2:\n      currentStep = 1;\n      step1Element.hidden = false;\n      step2Element.hidden = true;\n      prevStepButton.disabled = true;\n      nextStepButton.textContent = \"다음\";\n      break;\n\n    case 3:\n      currentStep = 2;\n      step2Element.hidden = false;\n      step3Element.hidden = true;\n      nextStepButton.disabled = false;\n      formElement.removeEventListener(\"submit\", submitAction);\n      break;\n  }\n});\nnextStepButton.addEventListener(\"click\", function () {\n  switch (currentStep) {\n    case 1:\n      currentStep = 2;\n      step1Element.hidden = true;\n      step2Element.hidden = false;\n      prevStepButton.disabled = false;\n      nextStepButton.textContent = \"시작\";\n      break;\n\n    case 2:\n      currentStep = 3;\n      step2Element.hidden = true;\n      step3Element.hidden = false;\n      nextStepButton.disabled = true;\n      currentOptions = checkStepOptions();\n      startGame();\n      formElement.addEventListener(\"submit\", submitAction);\n      break;\n  }\n});\n\nvar setQuestion = function () {\n  numberOne = Math.ceil(Math.random() * 9);\n  numberTwo = Math.ceil(Math.random() * 9);\n  result = numberOne * numberTwo;\n  options = createOptions(result);\n  currentOptions.type === \"multiple\" ? options = createOptions(result) : options = [];\n  questionElement.textContent = numberOne + \" \\uACF1\\uD558\\uAE30 \" + numberTwo + \"\\uB294 ?\";\n};\n\nvar submitAction = function (event) {\n  var input;\n  event.preventDefault();\n\n  if (currentOptions.type === \"answer\") {\n    input = answerTypeForm.querySelector(\"input\");\n  } else {\n    input = multipleTypeForm.querySelector(\"input[type=radio]:checked\");\n  }\n\n  checkAnswer(input);\n};\n\nvar startGame = function () {\n  selectedDifficulty.textContent = currentOptions.difficulty;\n  selectedType.textContent = currentOptions.type;\n\n  if (currentOptions.type === \"answer\") {\n    answerTypeForm.hidden = false;\n    multipleTypeForm.hidden = true;\n  } else {\n    answerTypeForm.hidden = true;\n    multipleTypeForm.hidden = false;\n  }\n\n  setQuestion();\n};\n\nvar checkAnswer = function (input) {\n  if (result === Number(input.value)) {\n    resultElement.textContent = \"딩동댕\";\n    resetInput(input);\n    setQuestion();\n  } else {\n    resultElement.textContent = \"땡\";\n    resetInput(input);\n  }\n};\n\nvar resetInput = function (input) {\n  if (currentOptions.type === \"answer\") {\n    input.value = \"\";\n    input.focus();\n  } else {\n    input.checked = false;\n  }\n};\n\nvar checkStepOptions = function () {\n  var difficulty = document.querySelector(\"input[name=difficulty]:checked\").value;\n  var type = document.querySelector(\"input[name=type]:checked\").value;\n  return {\n    difficulty: difficulty,\n    type: type\n  };\n};\n\nvar createOptions = function (result) {\n  var optionsCandidate = [];\n  var order = [0, 1, 2, 3, 4];\n  order.reduce(function (accumulator, current) {\n    optionsCandidate.push(accumulator + current);\n    return accumulator + current;\n  }, result);\n  var options = [];\n\n  for (var i = 0; optionsCandidate.length > 0; i++) {\n    options = options.concat(optionsCandidate.splice(Math.floor(Math.random() * optionsCandidate.length), 1));\n  }\n\n  var optionsElements = multipleTypeForm.querySelectorAll(\"li\");\n  optionsElements.forEach(function (optionElement, index) {\n    var labelElement = optionElement.querySelector(\"label\");\n    var inputElement = optionElement.querySelector(\"input\");\n    labelElement.textContent = String(options[index]);\n    inputElement.value = String(options[index]);\n  });\n  return options;\n};\n\n//# sourceURL=webpack:///./src/times-table/times-table.ts?");
 
 /***/ })
 

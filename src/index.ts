@@ -53,7 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const openGame: () => void = () => {
 		const focusedGame: HTMLElement = games.querySelector(".item:focus") as HTMLElement
 		if (!focusedGame) return
-		const focusedGameUrl: any = window.location.origin + "/" + focusedGame.dataset.game
+		const focusedGameUrl: any = window.location.origin + "/web-game/" + focusedGame.dataset.game
+		console.log("focusedGameUrl =", focusedGameUrl)
 		iframeGame.setAttribute("src", focusedGameUrl)
 		body.classList.add("is-playing-game")
 		document.removeEventListener("keydown", handleEnterKey)

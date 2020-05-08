@@ -19,7 +19,7 @@
 	<body id="body" class="flex flex-col">
 		<header class="v-center">
 			<h1 class="a11y-hidden">Web game with typescript</h1>
-			<i class="fas fa-power-off"></i>
+			<!-- <i class="fas fa-power-off"></i> -->
 			<time class="real-time" datetime="">
 				<span calss="hours"></span>
 				<i class="colon">:</i>
@@ -29,7 +29,7 @@
 		<main class="wrapper flex flex-col">
 			<div class="wave">&nbsp;</div>
 			<div class="selected-game-container">
-				<iframe src="/times-table" frameborder="0" id="selectedGame"></iframe>
+				<iframe src="/web-game/times-table" frameborder="0" id="selectedGame"></iframe>
 			</div>
 			<div class="games">
 				<a href="#" class="item" data-game="times-table">
@@ -55,7 +55,8 @@
 			</div>
 		</main>
 		<footer class="flex">
-			<div class="keyMap"><kbd>Enter</kbd>실행</div>
+			<div class="keyMap enter disabled"><kbd>Enter</kbd>실행</div>
+			<div class="keyMap esc"><kbd>ESC</kbd>게임 종료</div>
 			<div class="profile">
 				<i class="fas fa-user"></i>
 				<span>User Name</span>
