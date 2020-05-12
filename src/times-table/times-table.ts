@@ -106,11 +106,11 @@ const startGame = () => {
 	selectedType.textContent = currentOptions.type
 
 	if (currentOptions.type === "answer") {
-		answerTypeForm.hidden = false
-		multipleTypeForm.hidden = true
+		formElement.classList.remove("type-multiple")
+		formElement.classList.add("type-answer")
 	} else {
-		answerTypeForm.hidden = true
-		multipleTypeForm.hidden = false
+		formElement.classList.remove("type-answer")
+		formElement.classList.add("type-multiple")
 	}
 
 	setQuestion()

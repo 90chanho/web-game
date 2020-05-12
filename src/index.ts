@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const gameList: NodeListOf<Element> = games.querySelectorAll(".item")
 	const iframeGame: HTMLElement = document.getElementById("selectedGame") as HTMLElement
 	const startKey: HTMLDivElement = document.querySelector(".keyMap.enter") as HTMLDivElement
+	const closeKey: HTMLDivElement = document.querySelector(".keyMap.esc") as HTMLDivElement
 
 	setInterval(() => {
 		const realtime: string = new Date().toISOString()
@@ -46,25 +47,21 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 	document.addEventListener("keydown", handleEnterKey)
 
-	const handleEscKey: (e: any) => void = e => {
-		if (e.keyCode === 27) closeGame()
-	}
-
 	const openGame: () => void = () => {
 		const focusedGame: HTMLElement = games.querySelector(".item:focus") as HTMLElement
 		if (!focusedGame) return
+		// const focusedGameUrl: any = window.location.origin + "/" + focusedGame.dataset.game
 		const focusedGameUrl: any = window.location.origin + "/web-game/" + focusedGame.dataset.game
-		console.log("focusedGameUrl =", focusedGameUrl)
+
 		iframeGame.setAttribute("src", focusedGameUrl)
 		body.classList.add("is-playing-game")
 		document.removeEventListener("keydown", handleEnterKey)
-		document.addEventListener("keydown", handleEscKey)
+		closeKey.addEventListener("click", closeGame)
 	}
 
 	const closeGame: () => void = () => {
 		iframeGame.setAttribute("src", "/")
 		body.classList.remove("is-playing-game")
-		document.removeEventListener("keydown", handleEscKey)
 		document.addEventListener("keydown", handleEnterKey)
 	}
 })
