@@ -13,6 +13,48 @@ body {
 .v-center {
   align-items: center; }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000; }
+  .modal .title {
+    text-align: center;
+    font-size: 2rem;
+    padding-bottom: 15px; }
+  .modal .content {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px; }
+    .modal .content .desc {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px; }
+    .modal .content .button-wrap {
+      margin-top: 20px; }
+      .modal .content .button-wrap button {
+        position: relative;
+        padding: 5px 10px;
+        border-radius: 5px;
+        z-index: 2; }
+        .modal .content .button-wrap button:focus::before {
+          content: "";
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+          background-color: inherit;
+          filter: blur(2px);
+          position: absolute;
+          top: 0px;
+          z-index: -1;
+          left: 0px; }
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 /* Document
    ========================================================================== */
@@ -549,7 +591,7 @@ body {
   border-right: 2px solid #daa26b;
   border-left: 2px solid #68523c;
   border-top: 2px solid #c08654;
-  overflow: hidden;
+  overflow-y: auto;
   border-bottom: 2px solid #f2b77d;
   padding: 40px 20px; }
 
@@ -588,7 +630,7 @@ body {
       display: none; }
     .step.step3 .question-container form.type-multiple .answer {
       display: none; }
-    .step.step3 .question-container form.type-multiple button[type=submit] {
+    .step.step3 .question-container form.type-multiple button[type="submit"] {
       margin-top: 20px; }
     .step.step3 .question-container form .answer {
       display: inline-block; }
@@ -615,6 +657,19 @@ body {
     transform: translateX(-50%);
     font-size: 3rem; }
 
+.step.step3 .scoreList {
+  position: absolute;
+  top: 20px;
+  right: 20px; }
+  .step.step3 .scoreList dt {
+    font-size: 2rem; }
+  .step.step3 .scoreList dd {
+    margin-top: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #fff;
+    font-size: 1.5rem;
+    text-align: center; }
+
 .step-controller {
   height: 40px;
   display: flex;
@@ -622,4 +677,10 @@ body {
   .step-controller button {
     font-size: 24px;
     margin-right: 20px; }
+
+.modal .new-game {
+  background-color: #34c59f; }
+
+.modal .close-game {
+  background-color: #b3b3b3; }
 

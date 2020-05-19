@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			startKey.classList.add("disabled")
 		})
 
-		const imageElement: HTMLImageElement = item.querySelector("img")
+		const imageElement: HTMLImageElement = item.querySelector("img") as HTMLImageElement
 		const itemBg: string = item.dataset.game
 		itemBg ? imageElement.setAttribute("src", backgroundImgae[itemBg]) : null
 	})
@@ -50,6 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	const openGame: () => void = () => {
 		const focusedGame: HTMLElement = games.querySelector(".item:focus") as HTMLElement
 		if (!focusedGame) return
+		if (focusedGame.dataset.game !== "times-table") {
+			alert("준비중입니다")
+			return false
+		}
 		// const focusedGameUrl: any = window.location.origin + "/" + focusedGame.dataset.game
 		const focusedGameUrl: any = window.location.origin + "/web-game/" + focusedGame.dataset.game
 

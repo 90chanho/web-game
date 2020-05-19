@@ -5,14 +5,12 @@ import "./times-table.scss"
 const step1Element: HTMLDivElement = document.querySelector(".step.step1") as HTMLDivElement
 const step2Element: HTMLDivElement = document.querySelector(".step.step2") as HTMLDivElement
 const step3Element: HTMLDivElement = document.querySelector(".step.step3") as HTMLDivElement
-
 const prevStepButton: HTMLButtonElement = document.querySelector(
 	".button-prev-step"
 ) as HTMLButtonElement
 const nextStepButton: HTMLButtonElement = document.querySelector(
 	".button-next-step"
 ) as HTMLButtonElement
-
 const playGround: HTMLDivElement = document.querySelector(".play-game") as HTMLDivElement
 const selectedDifficulty: HTMLParagraphElement = playGround.querySelector(
 	".selectedDifficulty span"
@@ -23,6 +21,9 @@ const selectedType: HTMLParagraphElement = playGround.querySelector(
 const questionElement: HTMLParagraphElement = playGround.querySelector(
 	".play-game .question"
 ) as HTMLParagraphElement
+const scoreListElement: HTMLDListElement = playGround.querySelector(
+	".scoreList"
+) as HTMLDListElement
 const formElement: HTMLFormElement = playGround.querySelector("form") as HTMLFormElement
 const resultElement: HTMLParagraphElement = playGround.querySelector(
 	".result"
@@ -32,6 +33,17 @@ const multipleTypeForm: HTMLDivElement = formElement.querySelector(".multiple") 
 const submitButtonElment: HTMLButtonElement = formElement.querySelector(
 	".multiple"
 ) as HTMLButtonElement
+const modalElement: HTMLDivElement = document.querySelector(".modal") as HTMLDivElement
+const totalScoreElement: Element = modalElement.querySelector(".total-score .value") as Element
+const playTimeElement: HTMLTimeElement = modalElement.querySelector(
+	".play-time .value"
+) as HTMLTimeElement
+const newGameButton: HTMLButtonElement = modalElement.querySelector(
+	".new-game"
+) as HTMLButtonElement
+const closeGameButton: HTMLButtonElement = modalElement.querySelector(
+	".close-game"
+) as HTMLButtonElement
 
 let currentStep: number = 1
 let currentOptions: { difficulty: string; type: string } = {
@@ -39,6 +51,11 @@ let currentOptions: { difficulty: string; type: string } = {
 	type: "answer"
 }
 let numberOne: number, numberTwo: number, options: number[], result: number
+const setResult: { time: number; score: number; questions: number } = {
+	time: new Date().getTime(),
+	score: 0,
+	questions: 10
+}
 
 prevStepButton.addEventListener("click", () => {
 	switch (currentStep) {
@@ -80,26 +97,36 @@ nextStepButton.addEventListener("click", () => {
 	}
 })
 
-const setQuestion: () => void = () => {
-	numberOne = Math.ceil(Math.random() * 9)
-	numberTwo = Math.ceil(Math.random() * 9)
-	result = numberOne * numberTwo
-	options = createOptions(result)
-	currentOptions.type === "multiple" ? (options = createOptions(result)) : (options = [])
-	questionElement.textContent = `${numberOne} 곱하기 ${numberTwo}는 ?`
+const checkStepOptions: () => { difficulty: string; type: string } = () => {
+	const difficulty = (document.querySelector("input[name=difficulty]:checked") as HTMLInputElement)
+		.value
+	const type = (document.querySelector("input[name=type]:checked") as HTMLInputElement).value
+	return { difficulty, type }
 }
 
-const submitAction: (event: Event) => any = event => {
-	let input: HTMLInputElement
-	event.preventDefault()
-	if (currentOptions.type === "answer") {
-		input = answerTypeForm.querySelector("input") as HTMLInputElement
-	} else {
-		input = multipleTypeForm.querySelector("input[type=radio]:checked") as HTMLInputElement
+newGameButton.addEventListener("click", () => {
+	modalElement.hidden = true
+	startGame()
+})
+
+closeGameButton.addEventListener("click", () => {
+	modalElement.hidden = true
+	prevStepButton.click()
+})
+
+newGameButton.addEventListener("keydown", e => {
+	if (e.shiftKey && e.keyCode === 9) {
+		e.preventDefault()
+		closeGameButton.focus()
 	}
+})
 
-	checkAnswer(input)
-}
+closeGameButton.addEventListener("keydown", e => {
+	if (e.keyCode === 9) {
+		e.preventDefault()
+		newGameButton.focus()
+	}
+})
 
 const startGame = () => {
 	selectedDifficulty.textContent = currentOptions.difficulty
@@ -113,39 +140,26 @@ const startGame = () => {
 		formElement.classList.add("type-multiple")
 	}
 
+	setResult.time = new Date().getTime()
+	setResult.score = 0
+	setResult.questions = 10
+	scoreListElement.innerHTML = "<dt>결과표</dt>"
+
 	setQuestion()
 }
 
-const checkAnswer: (input: HTMLInputElement) => void = input => {
-	if (result === Number(input.value)) {
-		resultElement.textContent = "딩동댕"
-		resetInput(input)
-		setQuestion()
-	} else {
-		resultElement.textContent = "땡"
-		resetInput(input)
-	}
-}
-
-const resetInput: (input: HTMLInputElement) => void = input => {
-	if (currentOptions.type === "answer") {
-		input.value = ""
-		input.focus()
-	} else {
-		input.checked = false
-	}
-}
-
-const checkStepOptions: () => { difficulty: string; type: string } = () => {
-	const difficulty = (document.querySelector("input[name=difficulty]:checked") as HTMLInputElement)
-		.value
-	const type = (document.querySelector("input[name=type]:checked") as HTMLInputElement).value
-	return { difficulty, type }
+const setQuestion: () => void = () => {
+	numberOne = Math.ceil(Math.random() * 9)
+	numberTwo = Math.ceil(Math.random() * 9)
+	result = numberOne * numberTwo
+	options = createOptions(result)
+	currentOptions.type === "multiple" ? (options = createOptions(result)) : (options = [])
+	questionElement.textContent = `${numberOne} 곱하기 ${numberTwo}는 ?`
 }
 
 const createOptions: (result: number) => number[] = result => {
 	let optionsCandidate: number[] = []
-	let order = [0, 1, 2, 3, 4]
+	let order: number[] = [0, 1, 2, 3, 4]
 
 	order.reduce((accumulator, current) => {
 		optionsCandidate.push(accumulator + current)
@@ -169,4 +183,56 @@ const createOptions: (result: number) => number[] = result => {
 	})
 
 	return options
+}
+
+const submitAction: (event: Event) => any = event => {
+	let input: HTMLInputElement
+	event.preventDefault()
+	if (currentOptions.type === "answer") {
+		input = answerTypeForm.querySelector("input") as HTMLInputElement
+	} else {
+		input = multipleTypeForm.querySelector("input[type=radio]:checked") as HTMLInputElement
+	}
+
+	checkAnswer(input)
+}
+
+const checkAnswer: (input: HTMLInputElement) => void = input => {
+	if (!input.value.length) {
+		resultElement.textContent = "답을 입력해주세요"
+		input.focus()
+		return
+	}
+
+	const dd: Element = document.createElement("dd")
+	if (result === Number(input.value)) {
+		resultElement.textContent = "딩동댕"
+		dd.textContent = "O"
+		setResult.score++
+	} else {
+		resultElement.textContent = "땡"
+		dd.textContent = "X"
+	}
+	scoreListElement.appendChild(dd)
+	setResult.questions--
+	resetInput(input)
+	!setResult.questions ? doneGame() : setQuestion()
+}
+
+const doneGame: () => void = () => {
+	const doneTime: number = new Date().getTime()
+	const playTime: number = doneTime - setResult.time!
+	totalScoreElement.textContent = `${String(setResult.score)} 점`
+	playTimeElement.textContent = `${String(playTime / 1000)} 초`
+	modalElement.hidden = false
+	newGameButton.focus()
+}
+
+const resetInput: (input: HTMLInputElement) => void = input => {
+	if (currentOptions.type === "answer") {
+		input.value = ""
+		input.focus()
+	} else {
+		input.checked = false
+	}
 }

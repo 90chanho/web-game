@@ -103,15 +103,29 @@
 							</form>
 							<p class="result"></p>
 						</div>
+						<dl class="scoreList">
+							<dt>결과표</dt>
+						</dl>
 					</div>
 				</div>
 				<div class="step-controller">
-					<button class="button-prev-step">
+					<button class="button-prev-step" disabled>
 						이전
 					</button>
 					<button class="button-next-step">
 						다음
 					</button>
+				</div>
+				<div class="modal" hidden>
+					<div class="content">
+						<p class="title">게임 결과</p>
+						<p class="desc total-score"><span>총 점수 : </span><strong class="value"></strong></p>
+						<p class="desc play-time"><span>걸린 시간 : </span><time class="value"></time></p>
+						<div class="button-wrap">
+							<button class="new-game">새 게임</button>
+							<button class="close-game">게임 설정</button>
+						</div>
+					</div>
 				</div>
 			</section>
 		</main>

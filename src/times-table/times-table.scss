@@ -30,7 +30,7 @@ body {
 	border-right: 2px solid #daa26b;
 	border-left: 2px solid #68523c;
 	border-top: 2px solid #c08654;
-	overflow: hidden;
+	overflow-y: auto;
 	border-bottom: 2px solid #f2b77d;
 	padding: 40px 20px;
 }
@@ -82,7 +82,7 @@ body {
 					.answer {
 						display: none;
 					}
-					button[type=submit] {
+					button[type="submit"] {
 						margin-top: 20px;
 					}
 				}
@@ -125,6 +125,23 @@ body {
 				font-size: 3rem;
 			}
 		}
+
+		.scoreList {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+
+			dt {
+				font-size: 2rem;
+			}
+			dd {
+				margin-top: 20px;
+				padding-bottom: 5px;
+				border-bottom: 1px solid #fff;
+				font-size: 1.5rem;
+				text-align: center;
+			}
+		}
 	}
 }
 
@@ -136,5 +153,14 @@ body {
 	button {
 		font-size: 24px;
 		margin-right: 20px;
+	}
+}
+
+.modal {
+	.new-game {
+		background-color: #34c59f;
+	}
+	.close-game {
+		background-color: rgb(179, 179, 179);
 	}
 }
