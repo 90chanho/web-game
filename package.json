@@ -8,7 +8,7 @@
 		"start": "webpack-dev-server --progress",
 		"build": "NODE_ENV=production webpack"
 	},
-	"homepage": "https://90chanho.github.io/web-game",
+	"homepage": "https://koreasimpson.github.io/web-game",
 	"author": "ninezerochan",
 	"license": "ISC",
 	"devDependencies": {
